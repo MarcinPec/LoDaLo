@@ -1,6 +1,6 @@
 import flet as ft
 import genpass_engine
-from flet import Text, UserControl, ControlEvent, ElevatedButton, Column, Row, TextField
+from flet import Text, UserControl, ControlEvent, ElevatedButton, Column, Row
 
 
 class PassGener(UserControl):
@@ -22,7 +22,8 @@ class PassGener(UserControl):
 
     def build(self):
         title = Text(value="Password Generator", size=100, color='#b50938', font_family='Freestyle Script')
+        title_row = Row(controls=[title])
         check_field = Row(controls=[self.textfield, self.c_numbs, self.c_letters, self.c_special])
         button = ElevatedButton('Generate!', on_click=self.generate, animate_size=50, color='#b50938')
         row = self.text_gen
-        return Column(controls=[title, check_field, row, button], alignment=ft.MainAxisAlignment.CENTER)
+        return Column(controls=[title_row, check_field, row, button], alignment=ft.MainAxisAlignment.START)

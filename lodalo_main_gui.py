@@ -1,60 +1,77 @@
-import sys
-
 import flet as ft
-import passgener_app_gui
-from flet import Text, UserControl, ControlEvent, ElevatedButton, Column, Row, TextField, VerticalDivider
+import passgener_app_gui, logingener_app_gui, database_app_gui
+from flet import Text, ControlEvent, Column, VerticalDivider, CrossAxisAlignment, Row
 
 
 def main(page: ft.Page):
     page.title = 'LoDaLo - Login Data Lord'
-    page.vertical_alignment = 'center'
     page.horizontal_alignment = 'center'
-    page.window_width = 1000
+    page.window_width = 1200
     page.window_height = 700
     page.window_resizable = False
     page.theme_mode = 'light'
+    text_style_nav = ft.TextStyle(color='#b50938', size=30, font_family='Freestyle Script')
+    appbar = ft.AppBar(
+        leading=ft.Image(
+            src=f"images/cut.png",
+            width=120,
+            height=110,
 
-    logo = ft.Image(
-        src=f"images/lodalo_logo_v1.png",
-        width=800,
-        height=250,
-        fit=ft.ImageFit.COVER,
-    )
-    text_logo = Text('Welcome in LoDaLo App!! (Phase 0)', font_family='FreeStyle Script', color='#b50938', size=60)
-
-    main_view = Column([logo, VerticalDivider(width=1, color='red'), text_logo, ])
-    feedback_text = Text(value='')
-    password_gen_view = passgener_app_gui.PassGener()
-    login_gen_view = Text('Here will be a login generator...')
-    database_view = Text('Here will be a database manager...')
-
-    def bar_destination_changer(e: ControlEvent):
-        feedback_text.value = 'Loading...'
-        main_view.update()
-        if page.navigation_bar.selected_index == 0:
-            main_view.controls = [password_gen_view]
-            feedback_text.value = 'Password Generator'
-        elif page.navigation_bar.selected_index == 1:
-            main_view.controls = [login_gen_view]
-            feedback_text.value = 'Login Generator'
-        elif page.navigation_bar.selected_index == 1:
-            main_view.controls = [database_view]
-            feedback_text.value = 'Database Manager'
-        main_view.update()
-
-    page.navigation_bar = ft.NavigationBar(
-        destinations=[
-            ft.NavigationDestination(icon=ft.icons.EXPLORE, label='Password Generator'),
-            ft.NavigationDestination(icon=ft.icons.COMMUTE, label='Login Generator'),
-            ft.NavigationDestination(icon=ft.icons.COMMUTE, label='Database manager'),
-
+        ),
+        leading_width=40,
+        title=ft.Text("LoDaLo - Login Data Lord", font_family='Freestyle Script', color='#b50938', size=45),
+        center_title=True,
+        bgcolor='#d6bac2',
+        actions=[
+            ft.PopupMenuButton(
+                items=[
+                    ft.PopupMenuItem(text="Item 1"),
+                    ft.PopupMenuItem(),  # divider
+                    ft.PopupMenuItem(
+                        text="Checked item", checked=False,
+                    ),
+                ]
+            ),
         ],
-        on_change=bar_destination_changer,
     )
+    body_con1 = ft.Text("Welcome! It's Your Login Data Lord!", font_family='Freestyle Script', color='#b50938', size=30)
+    body = Column([body_con1], alignment=ft.MainAxisAlignment.CENTER)
+    page.body = body
+    passgen_view = passgener_app_gui.PassGener()
+    loggen_view = logingener_app_gui.LogGener()
+    database_view = database_app_gui.DataBaseViewer()
 
-    main_view.controls.append(feedback_text)
-    page.add(main_view)
+    def destination_changer(e: ControlEvent):
+        if navigation_rail.selected_index == 0:
+            body.controls = [passgen_view]
+        elif navigation_rail.selected_index == 1:
+            body.controls = [loggen_view]
+        elif navigation_rail.selected_index == 2:
+            body.controls = [database_view]
+        body.update()
+
+    navigation_rail = ft.NavigationRail(selected_index=0,
+                                        label_type=ft.NavigationRailLabelType.ALL,
+                                        extended=True,
+                                        height=700,
+                                        min_width=100,
+                                        min_extended_width=40,
+                                        selected_label_text_style=text_style_nav,
+                                        unselected_label_text_style=text_style_nav,
+                                        indicator_color='#b50938',
+                                        indicator_shape=ft.RoundedRectangleBorder(radius=5),
+                                        group_alignment=-1,
+                                        destinations=[ft.NavigationRailDestination(icon=ft.icons.PASSWORD,
+                                                                                   label='Password Generator'),
+                                                      ft.NavigationRailDestination(icon=ft.icons.LOGIN,
+                                                                                   label='Login Generator'),
+                                                      ft.NavigationRailDestination(icon=ft.icons.DATASET,
+                                                                                   label='Database Manager'),
+                                                      ],
+                                        #bgcolor='#d6bac2',
+                                        on_change=destination_changer)
+    second_row = ft.Row(controls=[navigation_rail, body], spacing=50, vertical_alignment=CrossAxisAlignment.START)
+    page.add(appbar, second_row)
 
 
 ft.app(main)
-

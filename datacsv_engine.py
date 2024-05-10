@@ -1,4 +1,5 @@
 import csv
+from utility import *
 
 
 class DataLoginSaver:
@@ -13,7 +14,6 @@ class DataLoginSaver:
             writer = csv.DictWriter(database, fieldnames=columnnames)
             if database.tell() == 0:
                 database.seek(0)
-                writer.writeheader()
             writer.writerow({'website': self.website, 'login': self.login, 'password': self.password})
 
     def __str__(self):
@@ -25,15 +25,17 @@ class DataLoginReader:
         self.database = database
 
     def file_reader(self):
-        with open(self.database, mode='r', newline='') as database:
-            reader = csv.DictReader(database)
+        data = []
+        with open(self.database, mode='r', newline='') as file:
+            columnnames = ['website', 'login', 'password']
+            reader = csv.DictReader(file, fieldnames=columnnames)
             for row in reader:
-                print(row)
+                data.append(row)
+            return data
 
     def __str__(self):
-        return f'{self.file_reader()}'
+        return '\n'.join([str(row) for row in self.file_reader()])
 
 
-test_file = 'lodalo_database.csv'
-test = DataLoginReader(test_file)
+test = DataLoginReader('lodalo_database.csv')
 print(test)

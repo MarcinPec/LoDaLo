@@ -61,7 +61,7 @@ class GenPass:
         elif not self.numbs and self.letters and not self.special_signs:
             return self.letter_gen(self.pass_long)
         elif not self.numbs and self.letter_gen and self.special_signs:
-            long1 = rnd.randint(1, (self.pass_long/2))
+            long1 = rnd.randint(1, (int(self.pass_long/2)))
             long2 = self.pass_long - long1
             result = self.letter_gen(long1) + self.special_signs_gen(long2)
             rnd.shuffle(result)
@@ -71,3 +71,7 @@ class GenPass:
 
     def __str__(self):
         return f'{self.pass_assembler()}'
+
+
+test = GenPass(10, True, True, True)
+print(test)
