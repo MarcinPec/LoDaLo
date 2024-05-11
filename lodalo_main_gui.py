@@ -6,8 +6,8 @@ from flet import Text, ControlEvent, Column, VerticalDivider, CrossAxisAlignment
 def main(page: ft.Page):
     page.title = 'LoDaLo - Login Data Lord'
     page.horizontal_alignment = 'center'
-    page.window_width = 1200
-    page.window_height = 700
+    page.window_width = 1920
+    page.window_height = 1080
     page.window_resizable = False
     page.theme_mode = 'light'
     text_style_nav = ft.TextStyle(color='#b50938', size=30, font_family='Freestyle Script')
