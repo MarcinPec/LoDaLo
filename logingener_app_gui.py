@@ -13,7 +13,7 @@ class LogGener(UserControl):
         self.lengthfield = ft.TextField(label='Login pattern')
         self.start_gen = genlogin_engine.GenLog('test', 10, self.c_numbs.value, self.c_letters.value,
                                                 self.c_special.value)
-        self.text_gen = ft.TextField(label='Generated password', value=str(self.start_gen))
+        self.text_gen = ft.TextField(label='Generated password', value=str(self.start_gen), read_only=True)
 
     def generate(self, e: ControlEvent):
         self.start_gen = genlogin_engine.GenLog(self.lengthfield.value, int(self.textfield.value), self.c_numbs.value,
@@ -28,4 +28,5 @@ class LogGener(UserControl):
         check_field = Row(controls=[self.c_numbs, self.c_letters, self.c_special])
         button = ElevatedButton('Generate!', on_click=self.generate, animate_size=50, color='#b50938')
         row = self.text_gen
-        return Column(controls=[title_row, text_fields, check_field, row, button], alignment=ft.MainAxisAlignment.START)
+        return Column(controls=[title_row, text_fields, check_field, row, button], alignment=ft.MainAxisAlignment.START,
+                      scroll=ft.ScrollMode.ALWAYS)
