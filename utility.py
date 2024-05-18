@@ -1,4 +1,5 @@
 from string import ascii_letters
+import csv
 
 
 def gen_express_str(func):
@@ -15,6 +16,23 @@ def gen_express_list(func):
         result = list(function)
         return result
     return wrapper
+
+
+def id_iterator_fixer(database):
+    rows = []
+    with open(database, mode='r', newline='') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            rows.append(row)
+
+    for idx, row in enumerate(rows, start=1):
+        row['id'] = str(idx)
+
+    with open(database, mode='w', newline='') as file:
+        columnnames = ['id', 'website', 'login', 'password']
+        writer = csv.DictWriter(file, fieldnames=columnnames)
+        writer.writeheader()
+        writer.writerows(rows)
 
 
 class EncryptTXT:
