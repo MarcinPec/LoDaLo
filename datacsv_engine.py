@@ -112,8 +112,3 @@ class DataLoginRemover:
     def __str__(self):
         return '\n'.join([str(row) for row in self.remover()])
 
-
-testf = 'lodalo_database.csv'
-test = DataLoginOneRowLoader(3, testf)
-print(test)
-

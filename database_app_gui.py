@@ -1,5 +1,5 @@
 import flet as ft
-import datacsv_engine, utility
+import datacsv_engine, utility, ai_password_analizer_engine
 import csv
 from flet import Text, UserControl, ControlEvent, ElevatedButton, Column, Row, DataTable, FilePickerResultEvent
 
@@ -77,10 +77,10 @@ class DataBaseViewer(UserControl):
             ft.DataColumn(label=ft.Text("WWW")),
             ft.DataColumn(label=ft.Text("Login")),
             ft.DataColumn(label=ft.Text("Password")),
+            ft.DataColumn(label=ft.Text("Strength")),
         ]
         self.delete_but = ElevatedButton('Remove', color='#b50938', on_click=self.remove_rows)
         self.edit_but = ElevatedButton('Edit', color='#b50938', on_click=self.edit_row)
-        self.analyze_but = ElevatedButton('Analyze', color='#b50938', disabled=True)
         self.save_but = ElevatedButton('Save row', color='#b50938', on_click=self.save_edited_row)
         self.update_rows()
         self.rowfield = ft.TextField(label='Edit row: ', text_size=15, hint_text='')
@@ -130,6 +130,14 @@ class DataBaseViewer(UserControl):
         self.update_rows()
         self.update()
 
+    def strength_analizer(self, password):
+        analize = ai_password_analizer_engine.PasswordStrengthModel(password)
+        time_crack = analize.estimate_cracking_time()
+        if time_crack > 5184000000: #10 000 years
+            return ft.Text('INCREDIBLY STRONG', color='#3aa832')
+        else:
+            return ft.Text('WORK IN PROGRESS', color='#f20707')
+
     def update_rows(self):
         self.data_load.update_data()
         self.rows = [
@@ -143,6 +151,7 @@ class DataBaseViewer(UserControl):
                                              can_reveal_password=True,
                                              read_only=True,
                                              border=ft.InputBorder.NONE)),
+                    ft.DataCell(self.strength_analizer(row['password']))
 
                 ]
             ) for row in self.data_load.all_data
@@ -162,7 +171,7 @@ class DataBaseViewer(UserControl):
             rows=self.rows,
             width=1200
         )
-        action_buttons = Row(controls=[self.textfield_edit_id, self.edit_but, self.analyze_but, self.textfield_edit, self.save_but])
+        action_buttons = Row(controls=[self.textfield_edit_id, self.edit_but, self.textfield_edit, self.save_but])
         action_buttons2 = Row(controls=[self.textfield_del, self.delete_but])
 
         return Column(controls=[title, textfields_button, action_buttons, action_buttons2, table], scroll=ft.ScrollMode.ALWAYS)
