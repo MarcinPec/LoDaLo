@@ -29,15 +29,8 @@ class PasswordStrengthModel(nn.Module):
         strength = self.strength_layer(x)
         return strength
 
-    def complexity(self):
-        charset_size = len(set(self.password))  # Liczba unikalnych znaków w haśle
-        password_length = len(self.password)  # Długość hasła
-        entropy = math.log2(charset_size) * password_length
-        return entropy
-
     def estimate_cracking_time(self):
         # Obliczenie czasu złamania hasła metodą bruteforce
-        complexity = self.complexity()
         password_len = len(self.password)
         charset_size = self.time_params['lowercase_letters'] + \
                        self.time_params['uppercase_letters'] + \
@@ -45,9 +38,13 @@ class PasswordStrengthModel(nn.Module):
                        self.time_params['special_characters']
         password_space = charset_size ** password_len
         time_to_crack = password_space / self.time_params['attempts_per_second']
-        return int(time_to_crack/60) # in minutes
+        return int(time_to_crack)
 
     def __str__(self):
         return f'{self.estimate_cracking_time()}'
+
+
+test = PasswordStrengthModel('pa$$w0rd')
+print(test)
 
 
