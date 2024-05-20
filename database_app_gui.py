@@ -133,10 +133,22 @@ class DataBaseViewer(UserControl):
     def strength_analizer(self, password):
         analize = ai_password_analizer_engine.PasswordStrengthModel(password)
         time_crack = analize.estimate_cracking_time()
-        if time_crack > 5184000000: #10 000 years
-            return ft.Text('INCREDIBLY STRONG', color='#3aa832')
+        if time_crack > 311040000000: #10 000 years
+            return ft.Text('INCREDIBLY STRONG', color='black', bgcolor='#0293fa')
+        elif 311040000000 < time_crack > 3110400000:
+            return ft.Text('VERY STRONG', color='black', bgcolor='#3aa832')
+        elif 3110400000 < time_crack > 31104000:
+            return ft.Text('STRONG', color='black', bgcolor='#76fa02')
+        elif 31104000 < time_crack > 259200:
+            return ft.Text('MEDIUM', color='black', bgcolor='#d1fa02')
+        elif 259200 < time_crack > 86400:
+            return ft.Text('WEAK', color='black', bgcolor='#fae902')
+        elif 86400 < time_crack > 60:
+            return ft.Text('VERY WEAK', color='black', bgcolor='#faac02')
+        elif 60 < time_crack >= 0:
+            return ft.Text('RIDICOLOUSLY WEAK!', color='black', bgcolor='#fa4902')
         else:
-            return ft.Text('WORK IN PROGRESS', color='#f20707')
+            return ft.Text('Waiting to data...', color='black')
 
     def update_rows(self):
         self.data_load.update_data()

@@ -44,7 +44,7 @@ class PasswordStrengthModel(nn.Module):
         return f'{self.estimate_cracking_time()}'
 
 
-test = PasswordStrengthModel('pa$$w0rd')
+test = PasswordStrengthModel('new_password')
 print(test)
 
 
