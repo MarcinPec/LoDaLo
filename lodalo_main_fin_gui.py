@@ -1,7 +1,7 @@
 import flet as ft
 import os.path
 import asyncio
-import passgener_app_gui, logingener_app_gui, database_app_gui, utility
+import passgener_app_gui, logingener_app_gui, database_app_gui, assocgener_app_gui, utility
 
 
 def main(page: ft.Page):
@@ -18,6 +18,7 @@ def main(page: ft.Page):
 
     body_view = ft.Container(body_all, expand=True)
     classic_passgen_view = ft.Container(passgener_app_gui.PassGener(), expand=True)
+    assoc_passgen_view = ft.Container(assocgener_app_gui.AssocPassGener(), expand=True)
     loggen_view = ft.Container(logingener_app_gui.LogGener(), expand=True)
     database_view = ft.Container(database_app_gui.DataBaseViewer(), expand=True)
     seconds_textfield = ft.TextField(label='time period', text_size=10, suffix_text='seconds', value='10')
@@ -45,6 +46,10 @@ def main(page: ft.Page):
         body.controls = [classic_passgen_view]
         body.update()
 
+    def assoc_passgen(_):
+        body.controls = [assoc_passgen_view]
+        body.update()
+
     def loggen(_):
         body.controls = [loggen_view]
         body.update()
@@ -52,8 +57,6 @@ def main(page: ft.Page):
     def database(_):
         body.controls = [database_view]
         body.update()
-
-
 
     appbar = ft.AppBar(
         leading=ft.Image(
@@ -91,6 +94,7 @@ def main(page: ft.Page):
             ft.PopupMenuButton(
                 items=[
                     ft.PopupMenuItem(text="Classic Password Generator", on_click=passgen),
+                    ft.PopupMenuItem(text="Associational Password Generator", on_click=assoc_passgen),
                     ft.PopupMenuItem(text="Login Generator", on_click=loggen),
                     ft.PopupMenuItem(text="Database Manager", on_click=database),
                 ],
