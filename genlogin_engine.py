@@ -2,9 +2,8 @@ import random as rnd
 import string as string
 from utility import *
 
-
 class GenLog:
-    def __init__(self, pattern=str, pass_long=int, numbs=bool, letters=bool, special_signs=bool):
+    def __init__(self, pattern, pass_long, numbs, letters, special_signs):
         self.pattern = pattern
         self.pass_long = pass_long
         self.numbs = numbs
@@ -34,7 +33,7 @@ class GenLog:
             yield signs
 
     @gen_express_str
-    def pass_assembler(self):
+    def login_assembler(self):
         pattern_len = len(self.pattern)
         generated_char_numb = self.pass_long - pattern_len
         if generated_char_numb <= 0:
@@ -49,7 +48,7 @@ class GenLog:
                 result.append(self.pattern)
                 return reversed(result)
             elif not self.numbs and not self.letters and not self.special_signs:
-                return f'How should I generate this login without any arguments, huh?'
+                return f''
             elif self.numbs and not self.letters and not self.special_signs:
                 result = self.number_gen(generated_char_numb)
                 result.append(self.pattern)
@@ -85,5 +84,5 @@ class GenLog:
                 return self.special_signs_gen(generated_char_numb)
 
     def __str__(self):
-        return f'{self.pass_assembler()}'
+        return f'{self.login_assembler()}'
 

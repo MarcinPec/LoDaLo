@@ -3,8 +3,13 @@ import string as string
 from utility import *
 
 
+class LengthError(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+
+
 class GenPass:
-    def __init__(self, pass_long=int, numbs=bool, letters=bool, special_signs=bool):
+    def __init__(self, pass_long, numbs, letters, special_signs):
         self.pass_long = pass_long
         self.numbs = numbs
         self.letters = letters
@@ -34,44 +39,47 @@ class GenPass:
 
     @gen_express_str
     def pass_assembler(self):
-        if self.numbs and self.letters and self.special_signs: #wszystkie są
-            long1 = rnd.randint(1, (int(self.pass_long/2)))
-            long2 = self.pass_long - long1 - 1
-            long3 = self.pass_long - long1 - long2
-            result = self.number_gen(long1) + self.letter_gen(long2) + self.special_signs_gen(long3)
-            rnd.shuffle(result)
-            return result
-        elif not self.numbs and not self.letters and not self.special_signs: #nie ma żadnych
-            return f'How should I generate this password without any arguments, huh?'
-        elif self.numbs and not self.letters and not self.special_signs:
-            return self.number_gen(self.pass_long)
-        elif self.numbs and not self.letters and self.special_signs:
-            long1 = rnd.randint(1, (self.pass_long/2))
-            long2 = 0
-            long3 = self.pass_long - long1 - long2
-            result = self.number_gen(long1) + self.special_signs_gen(long3)
-            rnd.shuffle(result)
-            return result
-        elif self.numbs and self.letters and not self.special_signs:
-            long1 = rnd.randint(1, (int(self.pass_long/2)))
-            long2 = self.pass_long - long1 - 1
-            result = self.number_gen(long1) + self.letter_gen(long2)
-            rnd.shuffle(result)
-            return result
-        elif not self.numbs and self.letters and not self.special_signs:
-            return self.letter_gen(self.pass_long)
-        elif not self.numbs and self.letter_gen and self.special_signs:
-            long1 = rnd.randint(1, (int(self.pass_long/2)))
-            long2 = self.pass_long - long1
-            result = self.letter_gen(long1) + self.special_signs_gen(long2)
-            rnd.shuffle(result)
-            return result
-        elif not self.numbs and not self.letters and self.special_signs:
-            return self.special_signs_gen(self.pass_long)
+        if self.pass_long <= 25:
+            if self.numbs and self.letters and self.special_signs: #wszystkie są
+                long1 = rnd.randint(1, (int(self.pass_long/2)))
+                long2 = self.pass_long - long1 - 1
+                long3 = self.pass_long - long1 - long2
+                result = self.number_gen(long1) + self.letter_gen(long2) + self.special_signs_gen(long3)
+                rnd.shuffle(result)
+                return result
+            elif not self.numbs and not self.letters and not self.special_signs: #nie ma żadnych
+                return f''
+            elif self.numbs and not self.letters and not self.special_signs:
+                return self.number_gen(self.pass_long)
+            elif self.numbs and not self.letters and self.special_signs:
+                long1 = rnd.randint(1, (self.pass_long/2))
+                long2 = 0
+                long3 = self.pass_long - long1 - long2
+                result = self.number_gen(long1) + self.special_signs_gen(long3)
+                rnd.shuffle(result)
+                return result
+            elif self.numbs and self.letters and not self.special_signs:
+                long1 = rnd.randint(1, (int(self.pass_long/2)))
+                long2 = self.pass_long - long1 - 1
+                result = self.number_gen(long1) + self.letter_gen(long2)
+                rnd.shuffle(result)
+                return result
+            elif not self.numbs and self.letters and not self.special_signs:
+                return self.letter_gen(self.pass_long)
+            elif not self.numbs and self.letter_gen and self.special_signs:
+                long1 = rnd.randint(1, (int(self.pass_long/2)))
+                long2 = self.pass_long - long1
+                result = self.letter_gen(long1) + self.special_signs_gen(long2)
+                rnd.shuffle(result)
+                return result
+            elif not self.numbs and not self.letters and self.special_signs:
+                return self.special_signs_gen(self.pass_long)
+        else:
+            raise LengthError('Too long!')
 
     def __str__(self):
         return f'{self.pass_assembler()}'
 
 
-test = GenPass(10, True, True, True)
-print(test)
+
+

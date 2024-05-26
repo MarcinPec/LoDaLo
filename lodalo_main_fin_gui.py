@@ -9,11 +9,11 @@ def main(page: ft.Page):
     page.horizontal_alignment = 'center'
     page.theme_mode = 'light'
     body_con1 = ft.Image(
-            src=f"images/lodalo_logo_v1.png",
+            src=f"images/lodalo_logo.png",
             width=400,
             height=180,
         )
-    body_con2 = ft.Text("Welcome in Phase0_v0.5!", font_family='Freestyle Script', color='#b50938', size=30)
+    body_con2 = ft.Text("Welcome in Phase1_v0.6!", font_family='Aptos', color='#00CCFF', size=18)
     body_all = ft.Column(controls=[body_con1, body_con2])
 
     body_view = ft.Container(body_all, expand=True)
@@ -23,6 +23,8 @@ def main(page: ft.Page):
     database_view = ft.Container(database_app_gui.DataBaseViewer(), expand=True)
     seconds_textfield = ft.TextField(label='time period', text_size=10, suffix_text='seconds', value='10')
     period = int(seconds_textfield.value)
+    dialog_text_style = ft.TextStyle(font_family='Aptos', color='#00CCFF', size=19)
+    dialog_title_style = ft.TextStyle(font_family='Freestyle Script', color='#00CCFF', size=35, weight=ft.FontWeight.BOLD)
 
     def refresh(_):
         body.controls = [body_view]
@@ -60,18 +62,18 @@ def main(page: ft.Page):
 
     appbar = ft.AppBar(
         leading=ft.Image(
-            src=f"images/cut.png",
+            src=f"images/lodalo_cut.png",
             width=120,
             height=110,
 
         ),
         leading_width=40,
         center_title=True,
-        bgcolor='#d6bac2',
+        bgcolor='#95cfde',
         actions=[
             ft.IconButton(
                 icon=ft.icons.PLAY_ARROW,
-                icon_color='#b50938',
+                icon_color='#00CCFF',
                 icon_size=35,
                 tooltip="Auto-refresh database for time period",
                 on_click=auto_refresh
@@ -79,14 +81,14 @@ def main(page: ft.Page):
             seconds_textfield,
             ft.IconButton(
                 icon=ft.icons.REFRESH,
-                icon_color='#b50938',
+                icon_color='#00CCFF',
                 icon_size=35,
                 tooltip="Refresh database",
                 on_click=refresh
             ),
             ft.IconButton(
                 icon=ft.icons.HOME,
-                icon_color='#b50938',
+                icon_color='#00CCFF',
                 icon_size=35,
                 tooltip="Home",
                 on_click=home
@@ -98,28 +100,31 @@ def main(page: ft.Page):
                     ft.PopupMenuItem(text="Login Generator", on_click=loggen),
                     ft.PopupMenuItem(text="Database Manager", on_click=database),
                 ],
-                icon_color='#b50938',
+                icon_color='#00CCFF',
                 icon_size=35
             ),
         ],
     )
-    loginfield = ft.TextField(password=True, can_reveal_password=True)
-    welcometext = ft.Text('How are you today?')
+    loginfield = ft.TextField(password=True, can_reveal_password=True, border_color='#00CCFF')
+    welcometext = ft.Text('How are you today?', style=dialog_text_style)
     pass_file = 'pass.txt'
 
     def login_dlg(e):
         usual_dlg.open = True
         page.update()
         a = loginfield.value
+        print(utility.EncryptTXT(pass_file))
         with open(pass_file, 'r') as passw:
             b = passw.read()
 
         if a == b:
             usual_dlg.open = False
             page.update()
+            print(utility.EncryptTXT(pass_file))
         else:
             usual_dlg.open = True
             page.update()
+
 
     def ops_dlg(e):
         oops_dlg.open = True
@@ -131,6 +136,7 @@ def main(page: ft.Page):
 
         oops_dlg.open = False
         page.update()
+        print(utility.EncryptTXT(pass_file))
         usual_dlg.open = True
         page.update()
 
@@ -144,10 +150,10 @@ def main(page: ft.Page):
 
     usual_dlg = ft.AlertDialog(
         modal=True,
-        title=ft.Text("Enter the password: "),
+        title=ft.Text("Password: ", style=dialog_title_style),
         content=loginfield,
         actions=[
-            ft.OutlinedButton("Login!", on_click=login_dlg),
+            ft.ElevatedButton("Login!", on_click=login_dlg, color='#00CCFF'),
         ],
         actions_alignment=ft.MainAxisAlignment.CENTER,
         on_dismiss=lambda e: print("Password correct!"),
@@ -155,20 +161,20 @@ def main(page: ft.Page):
 
     oops_dlg = ft.AlertDialog(
         modal=True,
-        title=ft.Text("Establish your password: "),
+        title=ft.Text("Establish your password: ", style=dialog_title_style),
         content=loginfield,
         actions=[
-            ft.OutlinedButton("Establish!", on_click=ops_dlg),
+            ft.ElevatedButton("Establish!", on_click=ops_dlg, color='#00CCFF'),
         ],
         actions_alignment=ft.MainAxisAlignment.CENTER,
         on_dismiss=lambda e: print("Password established!"),
     )
     welcome_dlg = ft.AlertDialog(
         modal=True,
-        title=ft.Text("Welcome to LoDaLo!!!"),
+        title=ft.Text("Welcome to LoDaLo!!!", style=dialog_title_style),
         content=welcometext,
         actions=[
-            ft.OutlinedButton("Good!", on_click=hello_dlg),
+            ft.ElevatedButton("Good!", on_click=hello_dlg, color='#00CCFF'),
         ],
         actions_alignment=ft.MainAxisAlignment.CENTER,
         on_dismiss=lambda e: print("Nice!"),
