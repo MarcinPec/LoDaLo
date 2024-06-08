@@ -1,5 +1,5 @@
 import flet as ft
-import datacsv_engine, utility, ai_password_analizer_engine
+import l4e_datacsv_engine, l6_utility, l7_ai_password_analizer_engine
 import csv
 import webbrowser
 from flet import Text, UserControl, ElevatedButton, Column, Row, DataTable
@@ -11,7 +11,7 @@ class DataFileSaver:
         self.log = log
         self.passw = passw
         self.idn = idn
-        self.data_writer = datacsv_engine.DataLoginSaver(idn, web, log, passw)
+        self.data_writer = l4e_datacsv_engine.DataLoginSaver(idn, web, log, passw)
 
     def write_data(self):
         self.all_data_w = self.data_writer.file_maker()
@@ -20,7 +20,7 @@ class DataFileSaver:
 class DataFileLoader:
     def __init__(self, filename):
         self.filename = filename
-        self.data_reader = datacsv_engine.DataLoginReader(filename)
+        self.data_reader = l4e_datacsv_engine.DataLoginReader(filename)
         self.all_data = self.data_reader.file_reader()
 
     def update_data(self):
@@ -31,7 +31,7 @@ class DataFileOneRowLoader:
     def __init__(self, idg, filename):
         self.idg = idg
         self.filename = filename
-        self.one_row_reader = datacsv_engine.DataLoginOneRowLoader(idg, filename)
+        self.one_row_reader = l4e_datacsv_engine.DataLoginOneRowLoader(idg, filename)
         self.all_data = self.one_row_reader.one_row_reader()
 
     def one_row_update(self):
@@ -43,7 +43,7 @@ class DataFileOneRowSaver:
         self.row_id = row_id
         self.database = database
         self.new_data = new_data
-        self.one_row_saver = datacsv_engine.DataLoginOneRowSaver(row_id, database, new_data)
+        self.one_row_saver = l4e_datacsv_engine.DataLoginOneRowSaver(row_id, database, new_data)
         self.all_data = self.one_row_saver.one_row_saver()
 
     def one_row_save(self):
@@ -54,7 +54,7 @@ class DataFileRemover:
     def __init__(self, idg, filename):
         self.idg = idg
         self.filename = filename
-        self.data_remover = datacsv_engine.DataLoginRemover(idg, filename)
+        self.data_remover = l4e_datacsv_engine.DataLoginRemover(idg, filename)
         self.all_data = self.data_remover.remover()
 
     def remove_data(self):
@@ -64,7 +64,7 @@ class DataFileRemover:
 class DataBaseViewer(UserControl):
     def __init__(self):
         super().__init__()
-        self.title_cell_style = ft.TextStyle(font_family='Freestyle Script', color='#00CCFF', size=30, letter_spacing=9)
+        self.title_cell_style = ft.TextStyle(font_family='Aptos', color='#00CCFF', size=25, letter_spacing=4, weight=ft.FontWeight.BOLD)
         self.reg_cell_style = ft.TextStyle(font_family='Aptos', color='#00CCFF', size=18)
         self.textfield_www = ft.TextField(label='type WWW', text_size=15, text_style=self.reg_cell_style,
                                           border_color='#00CCFF')
@@ -94,9 +94,10 @@ class DataBaseViewer(UserControl):
         self.rowfield = ft.TextField(label='Edit row: ', text_size=15, hint_text='', border_color='#00CCFF')
         self.title = Text(value="Database Manager", size=100, color='#00CCFF', font_family='Freestyle Script')
         self.button_add = ElevatedButton('Add to database', on_click=lambda event: self.write_rows(), color='#00CCFF')
+
     def edit_row(self, e):
         row_to_edit = self.textfield_edit_id.value
-        self.one_row_load = datacsv_engine.DataLoginOneRowLoader(row_to_edit, self.directory)
+        self.one_row_load = l4e_datacsv_engine.DataLoginOneRowLoader(row_to_edit, self.directory)
         self.textfield_edit.value = self.one_row_load
 
     def save_edited_row(self, e):
@@ -132,7 +133,7 @@ class DataBaseViewer(UserControl):
 
     @staticmethod
     def strength_analizer(password):
-        analize = ai_password_analizer_engine.PasswordStrengthModel(password)
+        analize = l7_ai_password_analizer_engine.PasswordStrengthModel(password)
         time_crack = analize.estimate_cracking_time()
         if time_crack > 311040000000: #10 000 years
             return ft.Image(src=f"images/6.png", width=220, height=95)
@@ -153,7 +154,7 @@ class DataBaseViewer(UserControl):
 
     @staticmethod
     def strength_time(password):
-        inst = ai_password_analizer_engine.PasswordStrenghtTimer(password)
+        inst = l7_ai_password_analizer_engine.PasswordStrenghtTimer(password)
         obj = inst.timer_adjuster()
         return ft.Text(obj, color='black', font_family='Aptos', weight=ft.FontWeight.BOLD, size=18)
 
@@ -208,6 +209,9 @@ class DataBaseViewer(UserControl):
             rows=self.rows,
             width=1200,
             vertical_lines=ft.border.BorderSide(1, "#00CCFF"),
+            horizontal_lines=ft.border.BorderSide(1, "#00CCFF"),
+            border=ft.border.all(1, "#00CCFF"),
+            border_radius=15
         )
         action_buttons = Row(controls=[self.textfield_edit_id, self.edit_but])
         action_buttons2 = Row(controls=[self.textfield_edit, self.save_but])

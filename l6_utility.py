@@ -54,3 +54,33 @@ class EncryptTXT:
         return f'{self.encryption()}'
 
 
+class EncryptCSV:
+    def __init__(self, data2encrypt):
+        self.data2encrypt = data2encrypt
+
+    def encryption(self):
+        with open(self.data2encrypt, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            data = [row for row in reader]
+
+        encrypted_data = []
+        for row in data:
+            encrypted_row = []
+            for item in row:
+                norm = ascii_letters
+                rever = ascii_letters[::-1]
+                translation_table = str.maketrans(norm, rever)
+                encrypted_item = item.translate(translation_table)[::-1]
+                encrypted_row.append(encrypted_item)
+            encrypted_data.append(encrypted_row)
+
+        with open(self.data2encrypt, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerows(encrypted_data)
+
+        return "Encryption completed."
+
+    def __str__(self):
+        return self.encryption()
+
+

@@ -1,4 +1,4 @@
-from utility import *
+from l6_utility import *
 
 
 class DataLoginSaver:
@@ -9,6 +9,7 @@ class DataLoginSaver:
         self.idn = idn
 
     def file_maker(self):
+        print(EncryptCSV('lodalo_database.csv'))
         with open('lodalo_database.csv', mode='a', newline='') as database:
             columnnames = ['id', 'website', 'login', 'password']
             writer = csv.DictWriter(database, fieldnames=columnnames)
@@ -16,6 +17,7 @@ class DataLoginSaver:
                 database.seek(0)
                 writer.writeheader()
             writer.writerow({'id': self.idn, 'website': self.website, 'login': self.login, 'password': self.password})
+        print(EncryptCSV('lodalo_database.csv'))
 
     def __str__(self):
         return f'{self.file_maker()}'
@@ -27,6 +29,7 @@ class DataLoginReader:
         self.start_row = start_row
 
     def file_reader(self):
+        print(EncryptCSV(self.database))
         data = []
         id_iterator_fixer(self.database)
         with open(self.database, mode='r', newline='') as file:
@@ -36,7 +39,8 @@ class DataLoginReader:
                 next(reader)
             for row in reader:
                 data.append(row)
-            return data
+        print(EncryptCSV(self.database))
+        return data
 
     def __str__(self):
         return '\n'.join([str(row) for row in self.file_reader()])
@@ -48,6 +52,7 @@ class DataLoginOneRowLoader:
         self.database = database
 
     def one_row_reader(self):
+        print(EncryptCSV(self.database))
         data = []
         with open(self.database, mode='r', newline='') as file:
             columnnames = ['id', 'website', 'login', 'password']
@@ -55,11 +60,13 @@ class DataLoginOneRowLoader:
             for row in reader:
                 if str(self.row_id) == row['id']:
                     data.append(row)
+            print(EncryptCSV(self.database))
             return data
 
     def __str__(self):
         row_data = self.one_row_reader()
         return ','.join(row_data[0].values())
+
 
 class DataLoginOneRowSaver:
     def __init__(self, row_id, database, new_data):
@@ -68,6 +75,7 @@ class DataLoginOneRowSaver:
         self.new_data = new_data
 
     def one_row_saver(self):
+        print(EncryptCSV(self.database))
         temp_data = []
         with open(self.database, mode='r', newline='') as file:
             reader = csv.DictReader(file)
@@ -83,6 +91,7 @@ class DataLoginOneRowSaver:
             writer = csv.DictWriter(file, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(temp_data)
+        print(EncryptCSV(self.database))
 
     def __str__(self):
         return f'{self.one_row_saver()}'
@@ -94,6 +103,7 @@ class DataLoginRemover:
         self.database = database
 
     def remover(self):
+        print(EncryptCSV(self.database))
         rows = []
         with open(self.database, mode='r', newline='') as database:
             reader = csv.DictReader(database)
@@ -106,7 +116,7 @@ class DataLoginRemover:
             writer = csv.DictWriter(file, fieldnames=columnnames)
             writer.writeheader()
             writer.writerows(rows)
-
+        print(EncryptCSV(self.database))
         return rows
 
     def __str__(self):

@@ -1,5 +1,4 @@
 import torch.nn as nn
-import math
 
 
 class PasswordStrengthModel(nn.Module):

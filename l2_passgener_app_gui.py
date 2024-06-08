@@ -1,34 +1,31 @@
 import flet as ft
+import l2e_genpass_engine, l7_ai_password_analizer_engine
 from flet import Text, UserControl, ControlEvent, ElevatedButton, Column, Row
-import assoc_bigram_genpass_engine, ai_password_analizer_engine
 
 
-class AssocPassGener(UserControl):
+class PassGener(UserControl):
     def __init__(self):
         super().__init__()
         self.reg_cell_style = ft.TextStyle(font_family='Aptos', color='#00CCFF', size=18)
-        self.title = Text(value="Associational Password Generator", size=100, color='#00CCFF', font_family='Freestyle Script')
-        self.decription = Text(
-            value=f'This generator creates passwords using AI model',
-            font_family='Aptos', size=15, color='#00CCFF')
-        self.length = ft.TextField(label='Length', border_color='#00CCFF', text_style=self.reg_cell_style)
-        self.word1 = ft.TextField(label='First word', border_color='#00CCFF', text_style=self.reg_cell_style)
-        self.word2 = ft.TextField(label='Second word', border_color='#00CCFF', text_style=self.reg_cell_style)
-        self.c_separate = ft.Checkbox(label='Separate segments of password', value=False)
-        self.c_polish = ft.Checkbox(label='Use polish dictionary', value=False)
-        self.start_gen = assoc_bigram_genpass_engine.AsociationalBigramPassGen(10, 'auto', 'kupa',
-                                                                               False, False)
+        self.c_numbs = ft.Checkbox(label='use numbers', value=False)
+        self.c_letters = ft.Checkbox(label='use letters', value=False)
+        self.c_special = ft.Checkbox(label='use special signs', value=False)
+        self.textfield = ft.TextField(label='Password length - max: 25', border_color='#00CCFF',
+                                      text_style=self.reg_cell_style)
+        self.start_gen = l2e_genpass_engine.GenPass(10, self.c_numbs.value, self.c_letters.value,
+                                                self.c_special.value)
         self.text_gen = ft.TextField(label='Generated password', value=str(self.start_gen), read_only=True,
                                      border_color='#00CCFF', text_style=self.reg_cell_style)
-        self.button_gen = ft.ElevatedButton('Generate!', on_click=self.generate, animate_size=50, color='#00CCFF')
-        self.c1 = ft.Container(
-            self.strength_analizer(str(self.text_gen.value)),
+        self.title = Text(value="Classic Password Generator", size=100, color='#00CCFF', font_family='Freestyle Script')
+        self.decription = Text(value='It generates hard to crack passwords in classic way', font_family='Aptos', size=15, color='#00CCFF')
+        self.button = ElevatedButton('Generate!', on_click=self.generate, animate_size=50, color='#00CCFF')
+        self.c1 = ft.Container(Row(controls=[self.strength_analizer(str(self.text_gen.value))]),
             alignment=ft.alignment.center,
             width=200,
             height=100
         )
         self.c2 = ft.Container(
-            self.strength_analizer(str(self.text_gen.value)),
+            Row(controls=[self.strength_analizer(str(self.text_gen.value))]),
             alignment=ft.alignment.center,
             width=200,
             height=100,
@@ -45,13 +42,24 @@ class AssocPassGener(UserControl):
         dialog_title_style = ft.TextStyle(font_family='Freestyle Script', color='#00CCFF', size=25,
                                           weight=ft.FontWeight.BOLD)
         self.dialogtext = ft.Text('Incorrect value!', style=dialog_text_style)
+        self.dialog2text = ft.Text('To long to generate!', style=dialog_text_style)
         self.error_dialog = ft.AlertDialog(
+        modal=True,
+        icon=ft.Icon(ft.icons.ERROR_SHARP, color='red'),
+        title=ft.Text("Ooops!", style=dialog_title_style),
+        content=self.dialogtext,
+        actions=[
+            ft.ElevatedButton("Ok", on_click=self.error_dlg, color='#00CCFF'),
+        ],
+        actions_alignment=ft.MainAxisAlignment.CENTER,
+    )
+        self.error_dialog2 = ft.AlertDialog(
             modal=True,
             icon=ft.Icon(ft.icons.ERROR_SHARP, color='red'),
             title=ft.Text("Ooops!", style=dialog_title_style),
-            content=self.dialogtext,
+            content=self.dialog2text,
             actions=[
-                ft.ElevatedButton("Ok", on_click=self.error_dlg, color='#00CCFF'),
+                ft.ElevatedButton("Ok", on_click=self.error_dlg2, color='#00CCFF'),
             ],
             actions_alignment=ft.MainAxisAlignment.CENTER,
         )
@@ -60,11 +68,15 @@ class AssocPassGener(UserControl):
         self.error_dialog.open = False
         self.error_dialog.update()
 
+    def error_dlg2(self, e):
+        self.error_dialog2.open = False
+        self.error_dialog2.update()
+
     @staticmethod
     def strength_analizer(password):
-        analize = ai_password_analizer_engine.PasswordStrengthModel(password)
+        analize = l7_ai_password_analizer_engine.PasswordStrengthModel(password)
         time_crack = analize.estimate_cracking_time()
-        time2 = ai_password_analizer_engine.PasswordStrenghtTimer(password)
+        time2 = l7_ai_password_analizer_engine.PasswordStrenghtTimer(password)
         crackt = time2.timer_adjuster()
         if time_crack > 311040000000:  # 10 000 years
             return Row(controls=[ft.Image(src=f"images/6.png", width=220, height=95), ft.Text(crackt)])
@@ -85,10 +97,9 @@ class AssocPassGener(UserControl):
 
     def generate(self, e: ControlEvent):
         try:
-            self.just_gen = assoc_bigram_genpass_engine.AsociationalBigramPassGen(int(self.length.value), self.word1.value,
-                                                                                  self.word2.value, self.c_separate.value,
-                                                                                  self.c_polish.value)
-            self.text_gen.value = str(self.just_gen)
+            self.start_gen = l2e_genpass_engine.GenPass(int(self.textfield.value), self.c_numbs.value, self.c_letters.value,
+                                                    self.c_special.value)
+            self.text_gen.value = str(self.start_gen)
             new_strength = self.strength_analizer(self.text_gen.value)
             if self.c.content == self.c1:
                 self.c2.content = new_strength
@@ -101,15 +112,13 @@ class AssocPassGener(UserControl):
         except ValueError:
             self.error_dialog.open = True
             self.error_dialog.update()
+        except l2e_genpass_engine.LengthError:
+            self.error_dialog2.open = True
+            self.error_dialog2.update()
 
     def build(self):
         title_row = Row(controls=[self.title, self.decription])
-        text_field = Row(controls=[self.length, self.word1, self.word2])
-        check_field = Row(controls=[self.c_separate, self.c_polish])
-        result_field = Row(controls=[self.text_gen, self.button_gen, self.c, self.error_dialog])
-        return Column(controls=[title_row, text_field, check_field, result_field], alignment=ft.MainAxisAlignment.START,
+        check_field = Row(controls=[self.textfield, self.c_numbs, self.c_letters, self.c_special])
+        row = Row(controls=[self.text_gen, self.button, self.c, self.error_dialog, self.error_dialog2])
+        return Column(controls=[title_row, check_field, row], alignment=ft.MainAxisAlignment.START,
                       scroll=ft.ScrollMode.ALWAYS)
-
-
-
-

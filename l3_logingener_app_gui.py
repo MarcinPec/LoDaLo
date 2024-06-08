@@ -1,5 +1,5 @@
 import flet as ft
-import genlogin_engine
+import l3e_genlogin_engine
 from flet import Text, UserControl, ControlEvent, ElevatedButton, Column, Row
 
 
@@ -16,7 +16,7 @@ class LogGener(UserControl):
         self.textfield = ft.TextField(label='Password length - max: 75', border_color='#00CCFF',
                                       text_style=self.reg_cell_style)
         self.lengthfield = ft.TextField(label='Login pattern', border_color='#00CCFF', text_style=self.reg_cell_style)
-        self.start_gen = genlogin_engine.GenLog('test', 10, self.c_numbs.value, self.c_letters.value,
+        self.start_gen = l3e_genlogin_engine.GenLog('test', 10, self.c_numbs.value, self.c_letters.value,
                                                 self.c_special.value)
         self.text_gen = ft.TextField(label='Generated password', value=str(self.start_gen), read_only=True,
                                      border_color='#00CCFF', text_style=self.reg_cell_style)
@@ -42,7 +42,7 @@ class LogGener(UserControl):
 
     def generate(self, e: ControlEvent):
         try:
-            self.start_gen = genlogin_engine.GenLog(self.lengthfield.value, int(self.textfield.value), self.c_numbs.value,
+            self.start_gen = l3e_genlogin_engine.GenLog(self.lengthfield.value, int(self.textfield.value), self.c_numbs.value,
                                                     self.c_letters.value, self.c_special.value)
             self.text_gen.value = str(self.start_gen)
             self.update()
