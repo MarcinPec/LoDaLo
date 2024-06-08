@@ -2,6 +2,7 @@ import random as rnd
 import string as string
 from l6_utility import *
 
+
 class GenLog:
     def __init__(self, pattern, pass_long, numbs, letters, special_signs):
         self.pattern = pattern
@@ -85,4 +86,3 @@ class GenLog:
 
     def __str__(self):
         return f'{self.login_assembler()}'
-

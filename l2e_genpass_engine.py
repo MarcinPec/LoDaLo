@@ -60,7 +60,7 @@ class GenPass:
                 return result
             elif self.numbs and self.letters and not self.special_signs:
                 long1 = rnd.randint(1, (int(self.pass_long/2)))
-                long2 = self.pass_long - long1 - 1
+                long2 = self.pass_long - long1
                 result = self.number_gen(long1) + self.letter_gen(long2)
                 rnd.shuffle(result)
                 return result
@@ -80,8 +80,4 @@ class GenPass:
     def __str__(self):
         return f'{self.pass_assembler()}'
 
-test = GenPass(5, False, True, True)
-print(test)
-len = len(str(test))
-print(len)
 
