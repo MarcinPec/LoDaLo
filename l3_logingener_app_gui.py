@@ -13,12 +13,12 @@ class LogGener(UserControl):
         self.c_numbs = ft.Checkbox(label='use numbers', value=False)
         self.c_letters = ft.Checkbox(label='use letters', value=False)
         self.c_special = ft.Checkbox(label='use special signs', value=False)
-        self.textfield = ft.TextField(label='Password length - max: 75', border_color='#00CCFF',
+        self.textfield = ft.TextField(label='Login length', border_color='#00CCFF',
                                       text_style=self.reg_cell_style)
         self.lengthfield = ft.TextField(label='Login pattern', border_color='#00CCFF', text_style=self.reg_cell_style)
         self.start_gen = l3e_genlogin_engine.GenLog('test', 10, self.c_numbs.value, self.c_letters.value,
                                                 self.c_special.value)
-        self.text_gen = ft.TextField(label='Generated password', value=str(self.start_gen), read_only=True,
+        self.text_gen = ft.TextField(label='Generated login', value=str(self.start_gen), read_only=True,
                                      border_color='#00CCFF', text_style=self.reg_cell_style)
         dialog_text_style = ft.TextStyle(font_family='Aptos', color='#00CCFF', size=20)
         dialog_title_style = ft.TextStyle(font_family='Freestyle Script', color='#00CCFF', size=25,
@@ -54,7 +54,7 @@ class LogGener(UserControl):
         title_row = Row(controls=[self.title, self.decription])
         text_fields = Row(controls=[self.lengthfield, self.textfield])
         check_field = Row(controls=[self.c_numbs, self.c_letters, self.c_special])
-        button = ElevatedButton('Generate!', on_click=self.generate, animate_size=50, color='#00CCFF')
+        button = ElevatedButton('Generate !', on_click=self.generate, animate_size=50, color='#00CCFF')
         row = Row(controls=[self.text_gen, button, self.error_dialog])
         return Column(controls=[title_row, text_fields, check_field, row], alignment=ft.MainAxisAlignment.START,
                       scroll=ft.ScrollMode.ALWAYS)

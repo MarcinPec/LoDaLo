@@ -6,7 +6,7 @@ import l2_passgener_app_gui, l3_logingener_app_gui, l4_database_app_gui, l1_asso
 
 
 def main(page: ft.Page):
-    page.title = 'LoDaLo - Login Data Lord'
+    page.title = 'LoDaLo - Login Data Lord '
     page.horizontal_alignment = 'center'
     page.theme_mode = 'light'
     body_con1 = ft.Image(
@@ -14,7 +14,7 @@ def main(page: ft.Page):
             width=400,
             height=180,
         )
-    body_con2 = ft.Text("Welcome in Final_v0.8!", font_family='Aptos', color='#00CCFF', size=18)
+    body_con2 = ft.Text("Welcome in v0.82!", font_family='Aptos', color='#00CCFF', size=18)
     body_all = ft.Column(controls=[body_con1, body_con2])
 
     body_view = ft.Container(body_all, expand=True)

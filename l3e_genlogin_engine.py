@@ -28,7 +28,7 @@ class GenLog:
     @staticmethod
     @gen_express_list
     def special_signs_gen(length):
-        special = ['!', '@', '#', '$', '%', '^', '&', '*', '/', '?', ';']
+        special = ['!', '@', '#', '$', '%', '^', '&', '*', '/', '?', ';', ']']
         for _ in range(length):
             signs = rnd.choice(special)
             yield signs

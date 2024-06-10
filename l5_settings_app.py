@@ -53,7 +53,7 @@ class OptionsMenu(UserControl):
             if 1 <= value <= 60:
                 return value
             else:
-                print("Value out of range (1-60).")
+                print("Value out of range (1 - 60)")
                 return 30  # Default value
         except ValueError:
             print("Invalid input, not an integer.")

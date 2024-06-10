@@ -90,8 +90,4 @@ class PasswordStrenghtTimer(PasswordStrengthModel):
         return f'{self.timer_adjuster()}'
 
 
-test = PasswordStrenghtTimer('nhfhdkf')
-print(test)
-
-
 

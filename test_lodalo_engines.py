@@ -41,7 +41,7 @@ def test_password_numbs_true(password_generator, length):
 
 
 @pytest.mark.parametrize("length", [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25])
-def test_password_letters_true(password_generator, length):
+def test_password_letter_true(password_generator, length):
     test = password_generator(length, False, True, False)
     for _ in range(1000):
         assert len(str(test)) == length

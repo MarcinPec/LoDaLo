@@ -53,7 +53,7 @@ class AsociationalBigramPassGen:
     @staticmethod
     @gen_express_str
     def special_signs_gen():
-        special = ['!', '@', '#', '$', '%', '^', '&', '*', '/', '?', ';']
+        special = ['!', '@', '#', '$', '%', '^', '&', '*', '/', '?', ';', ']']
         for _ in range(1):
             sign = rnd.choice(special)
             yield sign

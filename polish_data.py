@@ -30,7 +30,7 @@ polish_words = [
     "odkrycie", "ogłoszenie", "ognisko", "oko", "okres", "olej", "organizacja", "orzeł", "osiągnąć", "osoba", "otoczenie",
     "owoc", "paczka", "padaczka", "pamięć", "papier", "parada", "parasol", "parować", "pasja", "pasje", "patrzeć",
     "paznokieć", "pchać", "pełnia", "perfumy", "pianino", "piasek", "piekarnia", "pieniądz", "pierścień", "piękno",
-    "pies", "pijaństwo", "pilot", "piosenka", "pisanie", "planeta", "planować", "plastik", "plecak", "plomba", "pluton",
+    "pies", "pijaństwo", "pilot", "piosenka", "pisanie", "planeta", "pipczeć", "planować", "plastik", "plecak", "plomba", "pluton",
     "podatek", "podjąć", "podłoga", "podróż", "poemat", "pogoda", "pokazywać", "policja", "pomysł", "pomyłka", "popularność",
     "poranek", "porządek", "postawa", "potrzeba", "powieść", "powinność", "pożar", "pracować", "prawo", "premia", "przyjaźń",
     "przyjęcie", "przyroda", "przyszłość", "pszczoła", "publikacja", "punkt", "pułapka", "pytanie", "rabować", "radar",

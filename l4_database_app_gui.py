@@ -187,7 +187,7 @@ class DataBaseViewer(UserControl):
                         ft.IconButton(
                             icon=ft.icons.OPEN_IN_BROWSER,
                             icon_color='#00CCFF',
-                            tooltip='Open in browser...',
+                            tooltip='Open in browser....',
                             on_click=lambda e, url=row['website']: self.open_web_browser(url)),
                     ])),
                     ft.DataCell(self.strength_analizer(row['password'])),

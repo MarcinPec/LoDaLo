@@ -7,7 +7,7 @@ class AssocPassGener(UserControl):
     def __init__(self):
         super().__init__()
         self.reg_cell_style = ft.TextStyle(font_family='Aptos', color='#00CCFF', size=18)
-        self.title = Text(value="Associational Password Generator", size=100, color='#00CCFF', font_family='Freestyle Script')
+        self.title = Text(value="Associational Password Generator ", size=100, color='#00CCFF', font_family='Freestyle Script')
         self.decription = Text(
             value=f'This generator creates passwords using AI model',
             font_family='Aptos', size=15, color='#00CCFF')

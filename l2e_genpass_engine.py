@@ -75,7 +75,7 @@ class GenPass:
             elif not self.numbs and not self.letters and self.special_signs:
                 return self.special_signs_gen(self.pass_long)
         elif self.pass_long > 25:
-            raise LengthError('Incorrect password length!')
+            raise LengthError('Incorrect password length !')
 
     def __str__(self):
         return f'{self.pass_assembler()}'

@@ -23,7 +23,7 @@ english_words = [
     "degree", "Democrat", "democratic", "describe", "design", "despite", "detail", "determine", "develop", "development",
     "die", "difference", "different", "difficult", "direction", "director", "discover", "discuss", "disease", "doctor",
     "door", "down", "draw", "dream", "drive", "drop", "drug", "during", "each", "early",
-    "east", "easy", "eat", "economic", "economy", "edge", "education", "effect", "effort", "eight",
+    "east", "easy", "eat", "economic", "economy", "edge", "education", "erection", "effect", "effort", "eight",
     "either", "election", "else", "employee", "end", "energy", "enjoy", "enough", "enter", "entire",
     "environment", "especially", "establish", "even", "evening", "event", "ever", "every", "everybody", "everyone",
     "everything", "evidence", "exactly", "example", "executive", "exist", "expect", "experience", "expert", "explain",

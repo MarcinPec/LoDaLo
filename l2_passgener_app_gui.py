@@ -42,7 +42,7 @@ class PassGener(UserControl):
         dialog_title_style = ft.TextStyle(font_family='Freestyle Script', color='#00CCFF', size=25,
                                           weight=ft.FontWeight.BOLD)
         self.dialogtext = ft.Text('Incorrect value!', style=dialog_text_style)
-        self.dialog2text = ft.Text('To long to generate!', style=dialog_text_style)
+        self.dialog2text = ft.Text('To long to generate !', style=dialog_text_style)
         self.error_dialog = ft.AlertDialog(
         modal=True,
         icon=ft.Icon(ft.icons.ERROR_SHARP, color='red'),

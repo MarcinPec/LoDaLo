@@ -78,7 +78,7 @@ class EncryptCSV:
             writer = csv.writer(csvfile)
             writer.writerows(encrypted_data)
 
-        return "Encryption completed."
+        return "Encryption completed"
 
     def __str__(self):
         return self.encryption()
